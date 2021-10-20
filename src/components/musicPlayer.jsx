@@ -9,7 +9,6 @@ const MusicPlayer = (props) => {
     const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
     const [isPlaying, setIsPlaying] = useState(false);
     const audioEl = useRef(null)
-    const arrayOfDirections = ['t','tr','r','br','b','bl','l','tl'];
     const [tracks] = useState([
         {
             name: "Mekanın Sahibi",
@@ -127,10 +126,8 @@ const MusicPlayer = (props) => {
 
     useEffect(()=>{
         setSongDuration(Math.floor(document.getElementById('audio').duration));
-        // console.log(songDuration);
         let interval = setInterval(()=>{
             setCurrentSongDuration(Math.floor(document.getElementById('audio').currentTime));
-            // console.log(currentSongDuration);
         },1000)
         return(() => {
             clearInterval(interval)
