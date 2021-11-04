@@ -148,14 +148,43 @@ const MusicPlayer = (props) => {
         }
     },[currentSongDuration, tracks, songDuration]);
 
+    function getCurrentDuration(){
+        let minutes = Math.floor(currentSongDuration / 60);
+        let seconds = currentSongDuration % 60;
+        let DisplayMinutes = minutes<10? `0${minutes}` : `${minutes}` ;
+        let DisplaySeconds = seconds<10? `0${seconds}` : `${seconds}` ;
+        if(isNaN(songDuration)){
+            return `${DisplayMinutes} : ${DisplaySeconds} / 00 : 00`;
+        }
+        else if(songDuration !== isNaN){
+            return `${DisplayMinutes} : ${DisplaySeconds} / ${getFullDuration()}`
+        }
+    }
+
+    function getFullDuration(){
+        let minutes = Math.floor(songDuration / 60);
+        let seconds = songDuration % 60;
+        let DisplayMinutes = minutes<10? `0${minutes}` : `${minutes}` ;
+        let DisplaySeconds = seconds<10? `0${seconds}` : `${seconds}` ;
+        return `${DisplayMinutes} : ${DisplaySeconds}`;
+    }
+
     return (
-        <div className='flex justify-center items-center h-screen'>
+        <div className='flex justify-center items-center w-full text-gray-900 h-screen bg-gray-900'>
             <audio ref={audioEl} src={tracks[currentSongIndex].source} id='audio' ></audio>
-            <div className={`bg-gradient-to-t from-red-500 to-transparent transition-colors duration-300 p-1 rounded-2xl`}>
-                <div className="relative card rounded-2xl grid grid-cols-1 justify-items-center">
+            <div className={`bg-gradient-to-t from-red-500 to-gray-400  p-1 rounded-2xl card  `}>
+                <div className="relative card-inner rounded-2xl grid grid-cols-1 justify-items-center">
                     <Header tracks={tracks} currentSongIndex={currentSongIndex} />
                     <Controls SkipSong={SkipSong} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
-                    <input onChange={(e)=>document.getElementById('audio').currentTime = e.target.value} type='range' value={currentSongDuration} max={songDuration} className='w-9/12 range' />
+                    <div className="w-9/12 pb-2 flex justify-end items-center">
+                        <p>{getCurrentDuration()}</p>
+                    </div>
+                    <input 
+                        max={songDuration} 
+                        className='w-9/12 range' 
+                        type='range' value={currentSongDuration} 
+                        onChange={(e)=>document.getElementById('audio').currentTime = e.target.value} 
+                    />
                     <p className='absolute bottom-2'>Next {tracks[nextSongIndex].name} By {tracks[nextSongIndex].artist}</p>
                 </div>
             </div>
