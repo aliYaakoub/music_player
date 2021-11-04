@@ -153,11 +153,21 @@ const MusicPlayer = (props) => {
         let seconds = currentSongDuration % 60;
         let DisplayMinutes = minutes<10? `0${minutes}` : `${minutes}` ;
         let DisplaySeconds = seconds<10? `0${seconds}` : `${seconds}` ;
-        if(isNaN(songDuration)){
-            return `${DisplayMinutes} : ${DisplaySeconds} / 00 : 00`;
+        if(!isPlaying){
+            if(isNaN(songDuration)){
+                return `${DisplayMinutes} : ${DisplaySeconds} / 00 : 00`;
+            }
+            else if(songDuration !== isNaN){
+                return `${DisplayMinutes} : ${DisplaySeconds} / ${getFullDuration()}`
+            }
         }
-        else if(songDuration !== isNaN){
-            return `${DisplayMinutes} : ${DisplaySeconds} / ${getFullDuration()}`
+        else if(isPlaying){
+            if(isNaN(songDuration)){
+                return `loading ...`;
+            }
+            else if(songDuration !== isNaN){
+                return `${DisplayMinutes} : ${DisplaySeconds} / ${getFullDuration()}`
+            }
         }
     }
 
